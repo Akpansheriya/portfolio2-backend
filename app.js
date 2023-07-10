@@ -29,7 +29,7 @@ app.use(cors());
 // });
 
 app.get("/", (req, res) => {
-    res.render("hello");
+    res.send("hello");
 });
 
 const storage = multer.diskStorage({
