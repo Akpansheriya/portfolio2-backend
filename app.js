@@ -105,7 +105,8 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Document</title>
-          
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+         
       </head>
       <style> 
       .user-row {
@@ -126,21 +127,28 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
       
       .panel {
         margin-top: 20px;
+        border:2px solid #000
+      
+      }
+      
+      .panel-heading{
+        background:#000;
+        color:#fff;
       }
       </style>
       <body>
-      <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h3 class="panel-title">${ApplyData.firstName} ${ApplyData.lastName}</h3>
+      <div className="container">
+      <div className="row">
+        <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+          <div className="panel" style="  margin-top: 20px;  border:2px solid #000 ">
+            <div className="panel-heading"  style=" background:#000; color:#fff; ">
+              <h3 className="panel-title"  style="margin-top:0;>${ApplyData.firstName} ${ApplyData.lastName}</h3>
             </div>
-            <div class="panel-body">
-              <div class="row">
+            <div className="panel-body">
+              <div className="row">
                
-                <div class=" col-md-9 col-lg-9 ">
-                  <table class="table table-user-information">
+                <div className=" col-md-9 col-lg-9 ">
+                  <table className="table table-user-information">
                     <tbody>
                       <tr>
                         <td>Email :</td>
@@ -202,6 +210,107 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
    } );
 
 
+   app.post("/works", (req,res) => {
+  const {name,email,technologies,message} = req.body
+  if(name && email && technologies && message){
+    var mailoption = {
+      from: "BlackBull Admin",
+      to:"blackbulltechnology@gmail.com",
+      subject: "apply for works",
+      html: `
+      <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     
+  </head>
+  <style> 
+  .user-row {
+    margin-bottom: 14px;
+  }
+  
+  .table-user-information > tbody > tr {
+    border-top: 1px solid #ccc;
+  }
+  
+  .table-user-information > tbody > tr:first-child {
+    border-top: 0;
+  }
+  
+  .table-user-information > tbody > tr > td {
+    border-top: 0;
+  }
+  
+  .panel {
+    margin-top: 20px;
+    border:2px solid #000
+  
+  }
+  
+  .panel-heading{
+    background:#000;
+    color:#fff;
+  }
+  </style>
+  <body>
+  <div className="container">
+  <div className="row">
+    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+      <div className="panel" style="  margin-top: 20px;  border:2px solid #000 ">
+        <div className="panel-heading"  style=" background:#000; color:#fff; ">
+          <h3 className="panel-title"  style="margin-top:0;>${name}</h3>
+        </div>
+        <div className="panel-body">
+          <div className="row">
+           
+            <div className=" col-md-9 col-lg-9 ">
+              <table className="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>Email :</td>
+                    <td>${email}</td>
+                  </tr>
+                 
+                  <tr>
+                    <td>Technologies :</td>
+                    <td>${technologies}</td>
+                  </tr>
+                  <tr>
+                    <tr>
+                      <td>Message :</td>
+                      <td>${message}</td>
+                    </tr>
+                    
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </body>
+  </html>  `  }
+    transporter.sendMail(mailoption, function (error, info) {
+      if (error) {
+        console.log(error);
+        res.status(404).json({
+          message: "invalid email",
+        });
+      } else {
+        console.log("verification email sent successfully ", info.response);
+       
+        res.status(200).send("mail is sent successfully");
+      }
+    });
+  }
+   })
 
 app.post("/contactUs", async (req, res) => {
     
@@ -227,43 +336,26 @@ app.post("/contactUs", async (req, res) => {
           <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Document</title>
+
+              <title>blackbull technologies</title>
+              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            
               
           </head>
-          <style> 
-          .user-row {
-            margin-bottom: 14px;
-          }
-          
-          .table-user-information > tbody > tr {
-            border-top: 1px solid #ccc;
-          }
-          
-          .table-user-information > tbody > tr:first-child {
-            border-top: 0;
-          }
-          
-          .table-user-information > tbody > tr > td {
-            border-top: 0;
-          }
-          
-          .panel {
-            margin-top: 20px;
-          }
-          </style>
+        
           <body>
-          <div class="container">
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-              <div class="panel panel-primary">
-                <div class="panel-heading">
-                  <h3 class="panel-title">${UserData.name}</h3>
+          <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+              <div className="panel" style="  margin-top: 20px;  border:2px solid #000 ">
+                <div className="panel-heading" style=" background:#000; color:#fff; " >
+                  <h3 className="panel-title" style="margin-top:0;>${UserData.name}</h3>
                 </div>
-                <div class="panel-body">
-                  <div class="row">
+                <div className="panel-body">
+                  <div className="row">
                    
-                    <div class=" col-md-9 col-lg-9 ">
-                      <table class="table table-user-information">
+                    <div className=" col-md-9 col-lg-9 ">
+                      <table className="table table-user-information">
                         <tbody>
                           <tr>
                             <td>Email :</td>
