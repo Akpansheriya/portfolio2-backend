@@ -266,7 +266,7 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
         <div className="panel-body">
           <div className="row">
            
-            <div className=" col-md-9 col-lg-9 ">
+            <div className=" col-md-9 col-lg-9">
               <table className="table table-user-information">
                 <tbody>
                   <tr>
