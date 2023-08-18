@@ -18,7 +18,7 @@ const staticpath = path.join(__dirname, "./public");
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(staticpath));
 app.use('/public', express.static('public'));
 app.use(cors());
@@ -109,88 +109,102 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
          
       </head>
       <style> 
-      .user-row {
-        margin-bottom: 14px;
-      }
-      
-      .table-user-information > tbody > tr {
-        border-top: 1px solid #ccc;
-      }
-      
-      .table-user-information > tbody > tr:first-child {
-        border-top: 0;
-      }
-      
-      .table-user-information > tbody > tr > td {
-        border-top: 0;
-      }
-      
-      .panel {
-        margin-top: 20px;
-        border:2px solid #000
-      
-      }
-      
-      .panel-heading{
-        background:#000;
-        color:#fff;
-      }
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Inter", sans-serif;
+      color: #343a40;
+      line-height: 1;
+      display: flex;
+      justify-content: center;
+    }
+    
+    table {
+      width: 400px;
+      margin-top: 100px;
+      font-size: 18px;
+      border-collapse: collapse;
+    }
+    
+    td,
+    th {
+      padding: 16px 24px;
+      text-align: left;
+    }
+    
+    thead tr {
+      background-color: #087f5b;
+      color: #fff;
+    }
+    
+    thead th {
+      width: 25%;
+    }
+    
+    tbody tr:nth-child(odd) {
+      background-color: #f8f9fa;
+    }
+    
+    tbody tr:nth-child(even) {
+      background-color: #e9ecef;
+    }
+    
       </style>
       <body>
-      <div className="container">
-      <div className="row">
-        <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-          <div className="panel" style="  margin-top: 20px;  border:2px solid #000 ">
-            <div className="panel-heading"  style=" background:#000; color:#fff; ">
-              <h3 className="panel-title"  style="margin-top:0;>${ApplyData.firstName} ${ApplyData.lastName}</h3>
-            </div>
-            <div className="panel-body">
-              <div className="row">
-               
-                <div className=" col-md-9 col-lg-9 ">
-                  <table className="table table-user-information">
-                    <tbody>
-                      <tr>
-                        <td>Email :</td>
-                        <td>${ApplyData.email}</td>
-                      </tr>
-                      <tr>
-                        <td>contact no :</td>
-                        <td>${ApplyData.phone}</td>
-                      </tr>
-                      <tr>
-                        <td>Profile :</td>
-                        <td>${ApplyData.profile}</td>
-                      </tr>
-                      <tr>
-                        <tr>
-                          <td>Apply for :</td>
-                          <td>${ApplyData.applyFor}</td>
-                        </tr>
-                        <tr>
-                          <td>Experience :</td>
-                          <td>${ApplyData.experienceYear}</td>
-                        </tr>
-                        <tr>
-                          <td>education :</td>
-                          <td>${ApplyData.education}</td>
-                        </tr>
-                        <td>resume :</td>
-                        <td><a href="${ApplyData.resume}">resume</a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+      <table>
+  <thead>
+    <tr>
+       <th>Name : ${ApplyData.firstName}</th>
+      <th></th>
+     
+     
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Email :</th>
+      <td>${ApplyData.email}</td>
+     
+    </tr>
+    <tr>
+      <th>Contact :</td>
+      <td>${ApplyData.phone}</td>
+     
+    </tr>
+    <tr>
+      <th>Profile : </th>
+      <td>${ApplyData.profile}</td>
+     
+    </tr>
+    <tr>
+      <th>Apply For :</th>
+      <td>${ApplyData.applyFor}</td>
+     
+    </tr>
+    <tr>
+      <th>Experience :</th>
+      <td>${ApplyData.experienceYear} ${ApplyData.experienceMonth}</td>
+     
+    </tr>
+    <tr>
+      <th>Education :</th>
+      <td>${ApplyData.education}</td>
+     
+    </tr>
+    <tr>
+    <th>Resume :</th>
+    <td><a href="${ApplyData.resume}">resume</a></td>
+   
+  </tr>
+  </tbody>
+</table>
       </body>
       </html>  `  }
-        transporter.sendMail(mailoption, function (error, info) {
+      await  transporter.sendMail(mailoption, function (error, info) {
           if (error) {
             console.log(error);
             res.status(404).json({
@@ -206,6 +220,7 @@ app.post('/upload', upload.single("resume"), async(req, res) => {
       
     } catch (error) {
         res.status(500).send(error);
+        console.log(error)
     }
    } );
 
